@@ -1,0 +1,1599 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+    background: #050A18;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.video-container {
+    width: 360px;
+    height: 640px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+        160deg,
+        #071326 0%,
+        #101D3B 55%,
+        #182849 100%
+    );
+    border: 1px solid rgba(150, 180, 255, 0.15);
+    box-shadow: 0 0 45px rgba(20, 45, 100, 0.25);
+}
+
+.scene {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    display: none;
+    background:
+        radial-gradient(circle at 80% 20%,
+            rgba(91, 130, 190, 0.16), transparent 32%),
+        radial-gradient(circle at 20% 75%,
+            rgba(45, 78, 130, 0.18), transparent 40%);
+}
+
+.scene.active {
+    display: block;
+}
+
+/* 星光 */
+.scene::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(2px 2px at 15% 18%, #DDE8FF 50%, transparent 100%),
+        radial-gradient(1px 1px at 35% 12%, #FFFFFF 50%, transparent 100%),
+        radial-gradient(2px 2px at 75% 35%, #C8D8FF 50%, transparent 100%),
+        radial-gradient(1px 1px at 90% 55%, #FFFFFF 50%, transparent 100%);
+    opacity: 0.65;
+}
+
+/* 月亮 */
+.moon {
+    position: absolute;
+    top: 65px;
+    right: 45px;
+    font-size: 48px;
+    filter: drop-shadow(0 0 20px rgba(180, 205, 255, 0.8));
+    z-index: 2;
+}
+
+
+/* 账号品牌标识 */
+.brand {
+    position: absolute;
+    top: 43px;
+    left: 25px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 8;
+    color: #F3F5FF;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 0 12px rgba(150, 180, 255, 0.3);
+}
+
+.brand small {
+    color: #FFB454;
+    font-size: 8px;
+    letter-spacing: 1px;
+    padding: 3px 5px;
+    border: 1px solid rgba(255, 180, 84, 0.55);
+    border-radius: 5px;
+}
+
+
+
+/* 床铺整体 */
+.bed {
+    position: absolute;
+    width: 310px;
+    height: 225px;
+    left: 25px;
+    top: 275px;
+    z-index: 2;
+}
+
+/* 完整的床头背景 */
+.bed-headboard {
+    position: absolute;
+    left: 8px;
+    top: 20px;
+    width: 294px;
+    height: 150px;
+    border-radius: 25px 25px 15px 15px;
+    background: linear-gradient(135deg, #263B59, #152641);
+    border: 1px solid rgba(180, 200, 240, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    z-index: 0;
+}
+
+/* 枕头：托住人物头部 */
+.pillow {
+    position: absolute;
+    left: 32px;
+    top: 55px;
+    width: 112px;
+    height: 72px;
+    border-radius: 28px;
+    background: linear-gradient(145deg, #C3D0E2, #8096B5);
+    box-shadow:
+        inset 0 3px 8px rgba(255, 255, 255, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: rotate(-5deg);
+    z-index: 1;
+}
+
+/* 人物整体位置 */
+.sleeping-person {
+    position: absolute;
+    left: 25px;
+    top: 40px;
+    width: 245px;
+    height: 125px;
+    z-index: 3;
+}
+
+/* 身体与肩膀：从头部自然向右延伸 */
+.person-body {
+    position: absolute;
+    left: 76px;
+    top: 62px;
+    width: 155px;
+    height: 75px;
+    border-radius: 42px 55px 20px 20px;
+    background: linear-gradient(135deg, #657FA5, #30496E);
+    box-shadow: inset 0 5px 12px rgba(255,255,255,0.08);
+    transform: rotate(-3deg);
+    z-index: 1;
+}
+
+/* 脖子：藏在头部与肩膀之间 */
+.person-neck {
+    position: absolute;
+    left: 57px;
+    top: 57px;
+    width: 35px;
+    height: 29px;
+    border-radius: 10px 12px 14px 14px;
+    background: linear-gradient(135deg, #E9B895, #C98F76);
+    transform: rotate(-8deg);
+    z-index: 2;
+}
+
+/* 侧躺的头部 */
+.person-head {
+    position: absolute;
+    left: 30px;
+    top: 17px;
+    width: 73px;
+    height: 68px;
+    border-radius: 48% 50% 45% 48%;
+    background: linear-gradient(135deg, #F2C7A3, #D39A7E);
+    transform: rotate(-8deg);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    z-index: 3;
+}
+
+/* 头发 */
+.person-hair {
+    position: absolute;
+    left: 27px;
+    top: 10px;
+    width: 76px;
+    height: 37px;
+    border-radius: 55% 55% 25% 25%;
+    background: linear-gradient(135deg, #202D46, #101A30);
+    transform: rotate(-8deg);
+    z-index: 4;
+}
+
+/* 被子：覆盖身体下半部分 */
+.blanket {
+    position: absolute;
+    left: 115px;
+    top: 112px;
+    width: 185px;
+    height: 82px;
+    border-radius: 48px 18px 14px 14px;
+    background: linear-gradient(145deg, #49658F, #203858);
+    border: 1px solid rgba(190, 210, 245, 0.2);
+    box-shadow:
+        inset 0 5px 12px rgba(255,255,255,0.07),
+        0 8px 18px rgba(0,0,0,0.2);
+    z-index: 4;
+}
+
+/* 床沿：完整连接左右 */
+.bed-base {
+    position: absolute;
+    left: 5px;
+    bottom: 0;
+    width: 300px;
+    height: 28px;
+    border-radius: 5px 5px 15px 15px;
+    background: linear-gradient(90deg, #17263E, #304766, #17263E);
+    z-index: 5;
+}
+
+
+/* 思绪气泡 */
+.thought {
+    position: absolute;
+    padding: 12px 17px;
+    border-radius: 20px;
+    background: rgba(42, 66, 105, 0.75);
+    border: 1px solid rgba(160, 190, 240, 0.55);
+    color: #E8EEFF;
+    font-size: 14px;
+    box-shadow: 0 0 20px rgba(100, 145, 220, 0.16);
+    animation: float 3s ease-in-out infinite;
+    z-index: 6;
+}
+
+.thought-1 {
+    top: 185px;
+    left: 15px;
+}
+
+.thought-2 {
+    top: 235px;
+    right: 15px;
+    animation-delay: 1s;
+}
+
+/* 标题 */
+h1 {
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 42px;
+    text-align: center;
+    font-size: 25px;
+    line-height: 1.6;
+    color: #F3F5FF;
+    text-shadow: 0 0 15px rgba(140, 175, 240, 0.35);
+    z-index: 7;
+}
+
+/* 漂浮动画 */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ===== 人物与卧室细节升级 ===== */
+
+/* 枕头边缘增加柔和缝线 */
+.pillow::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 22px;
+}
+
+/* 人物耳朵 */
+.person-head::after {
+    content: "";
+    position: absolute;
+    right: -3px;
+    top: 31px;
+    width: 13px;
+    height: 16px;
+    border-radius: 50%;
+    background: #D99E83;
+    box-shadow: inset -2px 0 3px rgba(130, 70, 60, 0.15);
+}
+
+/* 头发增加细微层次 */
+.person-hair {
+    background: linear-gradient(
+        145deg,
+        #293954 0%,
+        #17243B 45%,
+        #101A30 100%
+    );
+    box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.06);
+}
+
+/* 肩膀和衣服增加柔和高光 */
+.person-body {
+    box-shadow:
+        inset 0 5px 12px rgba(255, 255, 255, 0.10),
+        inset 0 -5px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* 被子增加自然褶皱 */
+.blanket::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: 28px;
+    width: 105px;
+    height: 30px;
+    border-top: 1px solid rgba(210, 225, 255, 0.22);
+    border-radius: 50%;
+    transform: rotate(-5deg);
+}
+
+/* 被子增加柔和的布料高光 */
+.blanket::after {
+    content: "";
+    position: absolute;
+    top: 32px;
+    left: 45px;
+    width: 75px;
+    height: 18px;
+    border-top: 1px solid rgba(210, 225, 255, 0.12);
+    border-radius: 50%;
+    transform: rotate(5deg);
+}
+
+/* ===== 床头数字闹钟 ===== */
+
+.night-clock {
+    position: absolute;
+    top: 292px;
+    right: 42px;
+    width: 65px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(145deg, #26344D, #101B30);
+    border: 1px solid rgba(180, 200, 240, 0.3);
+    border-radius: 9px;
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.3),
+        inset 0 1px 3px rgba(255, 255, 255, 0.08);
+    z-index: 6;
+}
+
+/* 闹钟数字 */
+.clock-time {
+    color: #FFB454;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow:
+        0 0 5px rgba(255, 180, 84, 0.8),
+        0 0 12px rgba(255, 180, 84, 0.4);
+}
+
+/* 闹钟底部的小支架 */
+.night-clock::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 10px;
+    width: 45px;
+    height: 5px;
+    border-radius: 0 0 5px 5px;
+    background: #26344D;
+}
+
+/* 月亮的柔和呼吸光效 */
+.moon {
+    animation: moonGlow 4s ease-in-out infinite;
+}
+
+@keyframes moonGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 12px rgba(180, 205, 255, 0.5));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 25px rgba(180, 205, 255, 0.9));
+    }
+}
+
+/* 闹钟数字轻微闪烁 */
+.clock-time {
+    animation: clockGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes clockGlow {
+    0%, 100% {
+        opacity: 0.85;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ===== 第二幕：白天的注意力 ===== */
+
+.scene-2 {
+    background: linear-gradient(
+        160deg,
+        #DCEBFA 0%,
+        #AFCBEA 55%,
+        #819FCB 100%
+    );
+    color: #172A48;
+}
+
+/* 白天不显示第一幕的星光 */
+.scene-2::before {
+    display: none;
+}
+
+/* 背景装饰 */
+.day-background {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(255, 255, 255, 0.8),
+            transparent 28%
+        );
+}
+
+/* 标题 */
+.day-title {
+    position: absolute;
+    top: 75px;
+    left: 20px;
+    right: 20px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1.6;
+    color: #203858;
+    z-index: 3;
+}
+
+/* 太阳 */
+.day-sun {
+    position: absolute;
+    top: 175px;
+    right: 45px;
+    font-size: 43px;
+    filter: drop-shadow(0 0 15px rgba(255, 190, 75, 0.5));
+}
+
+/* 白天的人物 */
+.day-person {
+    position: absolute;
+    width: 100px;
+    height: 145px;
+    left: 130px;
+    top: 250px;
+    z-index: 3;
+}
+
+.day-head {
+    position: absolute;
+    top: 0;
+    left: 23px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #F4C9A5, #D89C7B);
+}
+
+.day-body {
+    position: absolute;
+    top: 48px;
+    left: 5px;
+    width: 90px;
+    height: 95px;
+    border-radius: 35px 35px 15px 15px;
+    background: linear-gradient(135deg, #587BAA, #34547F);
+    box-shadow: 0 10px 25px rgba(35, 65, 110, 0.2);
+}
+
+/* 信息图标卡片 */
+.day-item {
+    position: absolute;
+    width: 85px;
+    height: 75px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border-radius: 17px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 20px rgba(40, 70, 110, 0.12);
+    font-size: 25px;
+    z-index: 4;
+    animation: dayFloat 3s ease-in-out infinite;
+}
+
+.day-item span {
+    font-size: 13px;
+    font-weight: bold;
+    color: #304B70;
+}
+
+.work {
+    top: 230px;
+    left: 25px;
+}
+
+.study {
+    top: 230px;
+    right: 25px;
+    animation-delay: 0.5s;
+}
+
+.message {
+    top: 365px;
+    left: 25px;
+    animation-delay: 1s;
+}
+
+.social {
+    top: 365px;
+    right: 25px;
+    animation-delay: 1.5s;
+}
+
+/* 底部说明 */
+.day-caption {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 65px;
+    padding: 14px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: rgba(39, 68, 110, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 5px 18px rgba(30, 55, 95, 0.2);
+}
+
+/* 图标轻微浮动 */
+@keyframes dayFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+/* 调整第二幕太阳的位置 */
+.day-sun {
+    top: 22px;
+}
+/* 镜头淡入淡出效果 */
+.scene {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 1.2s ease,
+        visibility 1.2s ease;
+}
+
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+}
+/* 第二幕元素初始隐藏 */
+.scene-2 .day-title,
+.scene-2 .day-sun,
+.scene-2 .day-person,
+.scene-2 .day-item,
+.scene-2 .day-caption {
+    opacity: 0;
+}
+
+/* 元素渐显动画 */
+@keyframes elementFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 启动第二幕动画 */
+.scene-2.show-elements .day-title,
+.scene-2.show-elements .day-sun,
+.scene-2.show-elements .day-person,
+.scene-2.show-elements .day-item,
+.scene-2.show-elements .day-caption {
+    animation: elementFadeIn 0.8s ease-out forwards;
+}
+
+/* 控制出现顺序 */
+.scene-2.show-elements .day-title {
+    animation-delay: 0s;
+}
+
+.scene-2.show-elements .day-sun {
+    animation-delay: 0.5s;
+}
+
+.scene-2.show-elements .day-person {
+    animation-delay: 1s;
+}
+
+.scene-2.show-elements .day-item.work {
+    animation-delay: 1.5s;
+}
+
+.scene-2.show-elements .day-item.study {
+    animation-delay: 1.8s;
+}
+
+.scene-2.show-elements .day-item.message {
+    animation-delay: 2.1s;
+}
+
+.scene-2.show-elements .day-item.social {
+    animation-delay: 2.4s;
+}
+
+.scene-2.show-elements .day-caption {
+    animation-delay: 3s;
+}
+
+/* ===== 第三幕：夜晚环境安静 ===== */
+
+.scene-3 {
+    background: linear-gradient(
+        160deg,
+        #101936,
+        #1d2852,
+        #34265d
+    );
+    overflow: hidden;
+}
+
+/* 夜晚背景 */
+.night-background {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 75% 20%,
+            rgba(130, 133, 255, 0.2),
+            transparent 35%
+        );
+}
+
+/* 第三幕标题 */
+.scene-3-title {
+    position: absolute;
+    top: 55px;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: bold;
+    z-index: 5;
+}
+
+/* 窗户 */
+.night-window {
+    position: absolute;
+    width: 155px;
+    height: 190px;
+    right: 35px;
+    top: 135px;
+    border: 4px solid #8c91cf;
+    border-radius: 12px;
+    background: linear-gradient(
+        160deg,
+        #17264e,
+        #344477
+    );
+    box-shadow: 0 0 25px rgba(145, 155, 255, 0.2);
+}
+
+/* 窗户中间的分隔线 */
+.night-window::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: #8c91cf;
+}
+
+.night-window::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 3px;
+    background: #8c91cf;
+}
+
+/* 月亮 */
+.window-moon {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 35px;
+    z-index: 2;
+}
+
+/* 星星 */
+.window-star {
+    position: absolute;
+    color: #fff2c2;
+    font-size: 18px;
+    z-index: 2;
+}
+
+.star-1 {
+    top: 65px;
+    left: 20px;
+}
+
+.star-2 {
+    top: 115px;
+    right: 22px;
+}
+
+.star-3 {
+    top: 35px;
+    left: 55px;
+}
+
+/* 夜晚人物 */
+.night-person {
+    position: absolute;
+    left: 55px;
+    bottom: 125px;
+    width: 120px;
+    height: 155px;
+}
+
+/* 人物头部 */
+.night-head {
+    position: absolute;
+    width: 68px;
+    height: 78px;
+    left: 25px;
+    top: 0;
+    border-radius: 48% 48% 45% 45%;
+    background: #e2b5a0;
+    box-shadow: inset -8px -5px 0 rgba(80, 48, 75, 0.15);
+}
+
+/* 人物身体 */
+.night-body {
+    position: absolute;
+    width: 115px;
+    height: 95px;
+    left: 2px;
+    bottom: 0;
+    border-radius: 55px 55px 15px 15px;
+    background: #7776b8;
+}
+
+/* 思绪气泡 */
+.quiet-thought {
+    position: absolute;
+    padding: 12px 17px;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 14px;
+    background: rgba(111, 111, 190, 0.35);
+    border: 1px solid rgba(197, 190, 255, 0.6);
+    box-shadow: 0 0 18px rgba(153, 145, 255, 0.2);
+}
+
+.thought-a {
+    top: 365px;
+    left: 35px;
+}
+
+.thought-b {
+    top: 435px;
+    right: 25px;
+}
+
+/* 底部文字 */
+.quiet-caption {
+    position: absolute;
+    bottom: 55px;
+    width: 100%;
+    padding: 0 20px;
+    text-align: center;
+    color: #d9d7ff;
+    font-size: 15px;
+    line-height: 1.7;
+}
+/* ===== 第三幕元素渐显 ===== */
+
+.scene-3 .scene-3-title,
+.scene-3 .night-window,
+.scene-3 .night-person,
+.scene-3 .quiet-thought,
+.scene-3 .quiet-caption {
+    opacity: 0;
+}
+
+.scene-3.show-elements .scene-3-title,
+.scene-3.show-elements .night-window,
+.scene-3.show-elements .night-person,
+.scene-3.show-elements .quiet-thought,
+.scene-3.show-elements .quiet-caption {
+    animation: elementFadeIn 0.8s ease-out forwards;
+}
+
+/* 控制第三幕出现顺序 */
+.scene-3.show-elements .scene-3-title {
+    animation-delay: 0s;
+}
+
+.scene-3.show-elements .night-window {
+    animation-delay: 0.5s;
+}
+
+.scene-3.show-elements .night-person {
+    animation-delay: 1s;
+}
+
+.scene-3.show-elements .thought-a {
+    animation-delay: 1.6s;
+}
+
+.scene-3.show-elements .thought-b {
+    animation-delay: 2.2s;
+}
+
+.scene-3.show-elements .quiet-caption {
+    animation-delay: 2.8s;
+}
+
+/* ===== 第四幕：反刍思维 ===== */
+
+.scene-4 {
+    background: linear-gradient(
+        145deg,
+        #11152f,
+        #28204f,
+        #452963
+    );
+    overflow: hidden;
+}
+
+.brain-background {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(155, 111, 255, 0.2),
+            transparent 42%
+        );
+}
+
+/* 标题 */
+.scene-4-title {
+    position: absolute;
+    top: 55px;
+    width: 100%;
+    padding: 0 15px;
+    text-align: center;
+    color: white;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+/* 中央大脑 */
+.brain {
+    position: absolute;
+    top: 190px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: rgba(151, 116, 255, 0.16);
+    border: 2px solid rgba(191, 166, 255, 0.8);
+    box-shadow:
+        0 0 25px rgba(158, 120, 255, 0.45),
+        inset 0 0 25px rgba(158, 120, 255, 0.2);
+    font-size: 55px;
+    z-index: 3;
+}
+
+/* 思绪循环卡片 */
+.thought-loop {
+    position: absolute;
+    width: 145px;
+    min-height: 125px;
+    padding: 12px 10px;
+    text-align: center;
+    border-radius: 18px;
+    background: rgba(112, 91, 177, 0.22);
+    border: 1px solid rgba(194, 173, 255, 0.55);
+    color: white;
+    box-shadow: 0 0 18px rgba(151, 122, 255, 0.16);
+}
+
+/* 左侧：过去 */
+.past-loop {
+    left: 15px;
+    top: 355px;
+}
+
+/* 右侧：未来 */
+.future-loop {
+    right: 15px;
+    top: 355px;
+}
+
+/* 循环箭头 */
+.loop-icon {
+    color: #ffbd70;
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+/* 卡片标题 */
+.loop-title {
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 卡片说明 */
+.loop-text {
+    margin-top: 9px;
+    color: #e2dcff;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* 底部科普文字 */
+.rumination-caption {
+    position: absolute;
+    bottom: 55px;
+    width: 100%;
+    padding: 0 20px;
+    color: #e5dcff;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.7;
+}
+/* ===== 第四幕元素渐显 ===== */
+
+.scene-4 .scene-4-title,
+.scene-4 .brain,
+.scene-4 .thought-loop,
+.scene-4 .rumination-caption {
+    opacity: 0;
+}
+
+.scene-4.show-elements .scene-4-title,
+.scene-4.show-elements .brain,
+.scene-4.show-elements .thought-loop,
+.scene-4.show-elements .rumination-caption {
+    animation: elementFadeIn 0.8s ease-out forwards;
+}
+
+/* 控制出现顺序 */
+.scene-4.show-elements .scene-4-title {
+    animation-delay: 0s;
+}
+
+.scene-4.show-elements .brain {
+    animation-delay: 0.6s;
+}
+
+.scene-4.show-elements .past-loop {
+    animation-delay: 1.3s;
+}
+
+.scene-4.show-elements .future-loop {
+    animation-delay: 1.8s;
+}
+
+.scene-4.show-elements .rumination-caption {
+    animation-delay: 2.5s;
+}
+
+/* 大脑呼吸光效 */
+.scene-4.show-elements .brain {
+    animation:
+        elementFadeIn 0.8s ease-out 0.6s forwards,
+        brainPulse 3s ease-in-out 1.4s infinite;
+}
+
+@keyframes brainPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 20px rgba(158, 120, 255, 0.3),
+            inset 0 0 15px rgba(158, 120, 255, 0.15);
+    }
+
+    50% {
+        box-shadow:
+            0 0 38px rgba(158, 120, 255, 0.7),
+            inset 0 0 25px rgba(158, 120, 255, 0.35);
+    }
+}
+
+/* 循环箭头旋转 */
+.scene-4.show-elements .loop-icon {
+    display: inline-block;
+    animation: loopRotate 4s linear infinite;
+}
+
+@keyframes loopRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== 第五幕：睡前认知唤醒 ===== */
+
+.scene-5 {
+    background: linear-gradient(
+        150deg,
+        #0c1531,
+        #1b2250,
+        #30245c
+    );
+    overflow: hidden;
+}
+
+.sleep-background {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 50% 38%,
+            rgba(129, 111, 255, 0.23),
+            transparent 42%
+        );
+}
+
+/* 标题 */
+.scene-5-title {
+    position: absolute;
+    top: 55px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+/* 发光大脑 */
+.active-brain {
+    position: absolute;
+    top: 175px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid rgba(187, 160, 255, 0.8);
+    background: rgba(133, 105, 230, 0.2);
+    box-shadow: 0 0 35px rgba(154, 125, 255, 0.45);
+    font-size: 60px;
+    z-index: 3;
+}
+
+/* 神经连接线 */
+.neural-line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #a99aff,
+        #ffbf80,
+        transparent
+    );
+    transform-origin: left center;
+    opacity: 0.8;
+    box-shadow: 0 0 10px #a99aff;
+}
+
+.line-1 {
+    width: 115px;
+    left: 72px;
+    top: 230px;
+    transform: rotate(-25deg);
+}
+
+.line-2 {
+    width: 115px;
+    right: 65px;
+    top: 220px;
+    transform: rotate(25deg);
+}
+
+.line-3 {
+    width: 100px;
+    left: 85px;
+    top: 280px;
+    transform: rotate(20deg);
+}
+
+.line-4 {
+    width: 100px;
+    right: 75px;
+    top: 290px;
+    transform: rotate(-20deg);
+}
+
+/* 思绪气泡 */
+.sleep-thought {
+    position: absolute;
+    padding: 11px 15px;
+    border-radius: 18px;
+    color: white;
+    font-size: 13px;
+    background: rgba(117, 100, 190, 0.35);
+    border: 1px solid rgba(193, 176, 255, 0.6);
+    box-shadow: 0 0 18px rgba(152, 132, 255, 0.25);
+}
+
+.sleep-thought-1 {
+    top: 345px;
+    left: 20px;
+}
+
+.sleep-thought-2 {
+    top: 390px;
+    right: 20px;
+}
+
+.sleep-thought-3 {
+    top: 445px;
+    left: 65px;
+}
+
+/* 睡眠状态 */
+.sleep-indicator {
+    position: absolute;
+    top: 455px;
+    right: 35px;
+    width: 125px;
+    padding: 12px 8px;
+    text-align: center;
+    border-radius: 16px;
+    background: rgba(65, 75, 130, 0.3);
+    border: 1px solid rgba(159, 165, 220, 0.45);
+    color: #d7d8ff;
+}
+
+.sleep-moon {
+    display: block;
+    font-size: 28px;
+}
+
+.sleep-label {
+    display: block;
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.sleep-status {
+    display: block;
+    margin-top: 5px;
+    color: #b6b2d9;
+    font-size: 11px;
+}
+
+/* 底部科普文字 */
+.sleep-caption {
+    position: absolute;
+    bottom: 42px;
+    width: 100%;
+    padding: 0 22px;
+    color: #e4e0ff;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* ===== 第五幕元素渐显 ===== */
+
+.scene-5 .scene-5-title,
+.scene-5 .active-brain,
+.scene-5 .neural-line,
+.scene-5 .sleep-thought,
+.scene-5 .sleep-indicator,
+.scene-5 .sleep-caption {
+    opacity: 0;
+}
+
+/* 元素依次渐显 */
+.scene-5.show-elements .scene-5-title,
+.scene-5.show-elements .active-brain,
+.scene-5.show-elements .neural-line,
+.scene-5.show-elements .sleep-thought,
+.scene-5.show-elements .sleep-indicator,
+.scene-5.show-elements .sleep-caption {
+    animation: elementFadeIn 0.8s ease-out forwards;
+}
+
+/* 出现顺序 */
+.scene-5.show-elements .scene-5-title {
+    animation-delay: 0s;
+}
+
+.scene-5.show-elements .active-brain {
+    animation-delay: 0.5s;
+}
+
+.scene-5.show-elements .line-1 {
+    animation-delay: 0.9s;
+}
+
+.scene-5.show-elements .line-2 {
+    animation-delay: 1.1s;
+}
+
+.scene-5.show-elements .line-3 {
+    animation-delay: 1.3s;
+}
+
+.scene-5.show-elements .line-4 {
+    animation-delay: 1.5s;
+}
+
+.scene-5.show-elements .sleep-thought-1 {
+    animation-delay: 1.8s;
+}
+
+.scene-5.show-elements .sleep-thought-2 {
+    animation-delay: 2.2s;
+}
+
+.scene-5.show-elements .sleep-thought-3 {
+    animation-delay: 2.6s;
+}
+
+.scene-5.show-elements .sleep-indicator {
+    animation-delay: 3s;
+}
+
+.scene-5.show-elements .sleep-caption {
+    animation-delay: 3.5s;
+}
+
+/* 大脑持续发光 */
+.scene-5.show-elements .active-brain {
+    animation:
+        elementFadeIn 0.8s ease-out 0.5s forwards,
+        brainPulse 2.5s ease-in-out 1.3s infinite;
+}
+
+/* 神经连接持续闪烁 */
+.scene-5.show-elements .neural-line {
+    animation:
+        elementFadeIn 0.8s ease-out forwards,
+        neuralFlash 1.8s ease-in-out infinite;
+}
+
+@keyframes neuralFlash {
+    0%, 100% {
+        opacity: 0.35;
+        filter: brightness(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        filter: brightness(1.8);
+    }
+}
+
+/* 思绪气泡轻微浮动 */
+.scene-5.show-elements .sleep-thought {
+    animation:
+        elementFadeIn 0.8s ease-out forwards,
+        thoughtFloat 3s ease-in-out infinite;
+}
+
+@keyframes thoughtFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+/* ===== 第六幕：情绪收束 ===== */
+
+.scene-6 {
+    background: linear-gradient(
+        180deg,
+        #10152f,
+        #24234f,
+        #39306a
+    );
+    overflow: hidden;
+}
+
+/* 背景 */
+.ending-background {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(145, 130, 255, 0.18),
+            transparent 55%
+        );
+}
+
+/* 月亮 */
+.ending-moon {
+    position: absolute;
+    top: 75px;
+    right: 55px;
+    font-size: 48px;
+    filter: drop-shadow(0 0 18px rgba(255, 225, 170, 0.7));
+    animation: moonGlow 4s ease-in-out infinite;
+}
+
+/* 人物 */
+.ending-person {
+    position: absolute;
+    left: 50%;
+    top: 190px;
+    width: 130px;
+    height: 150px;
+    transform: translateX(-50%);
+}
+
+/* 人物头部 */
+.ending-head {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    width: 50px;
+    height: 55px;
+    border-radius: 50%;
+    background: #e8c3a5;
+}
+
+/* 人物身体 */
+.ending-body {
+    position: absolute;
+    top: 48px;
+    left: 10px;
+    width: 110px;
+    height: 100px;
+    border-radius: 55px 55px 20px 20px;
+    background: linear-gradient(
+        135deg,
+        #7773c9,
+        #45447f
+    );
+    box-shadow: 0 0 30px rgba(145, 130, 255, 0.2);
+}
+
+/* 结尾主文案 */
+.ending-text {
+    position: absolute;
+    top: 385px;
+    left: 25px;
+    width: 310px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 23px;
+    line-height: 1.8;
+    font-weight: bold;
+}
+
+/* 补充文案 */
+.ending-caption {
+    position: absolute;
+    top: 485px;
+    left: 20px;
+    width: 320px;
+    text-align: center;
+    color: #c5c4ed;
+    font-size: 14px;
+}
+
+/* 品牌标识 */
+.ending-brand {
+    position: absolute;
+    bottom: 28px;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.ending-brand span {
+    display: block;
+    margin-top: 5px;
+    color: #ffb454;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+/* 月亮柔和呼吸 */
+@keyframes moonGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 12px rgba(255, 225, 170, 0.4));
+    }
+    50% {
+        filter: drop-shadow(0 0 25px rgba(255, 225, 170, 0.9));
+    }
+}
+/* 第六幕元素渐显 */
+.scene-6 .ending-moon,
+.scene-6 .ending-person,
+.scene-6 .ending-text,
+.scene-6 .ending-caption,
+.scene-6 .ending-brand {
+    opacity: 0;
+}
+
+.scene-6.show-elements .ending-moon {
+    animation: elementFadeIn 1.2s ease forwards;
+    animation-delay: 0.3s;
+}
+
+.scene-6.show-elements .ending-person {
+    animation: elementFadeIn 1.2s ease forwards;
+    animation-delay: 0.8s;
+}
+
+.scene-6.show-elements .ending-text {
+    animation: elementFadeIn 1.2s ease forwards;
+    animation-delay: 1.8s;
+}
+
+.scene-6.show-elements .ending-caption {
+    animation: elementFadeIn 1.2s ease forwards;
+    animation-delay: 2.8s;
+}
+
+.scene-6.show-elements .ending-brand {
+    animation: elementFadeIn 1.2s ease forwards;
+    animation-delay: 3.5s;
+}
+/* ===== 第四幕升级：人物情绪与科技背景 ===== */
+
+.scene-4 {
+    isolation: isolate;
+}
+
+/* 背景柔和光晕 */
+.brain-background {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 50% 43%,
+            rgba(130, 91, 255, 0.2),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at 15% 75%,
+            rgba(63, 112, 255, 0.12),
+            transparent 35%
+        );
+    pointer-events: none;
+}
+
+/* 漂浮粒子 */
+.brain-background::before,
+.brain-background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle, rgba(210, 200, 255, 0.9) 1px, transparent 2px),
+        radial-gradient(circle, rgba(139, 166, 255, 0.8) 1.5px, transparent 2.5px),
+        radial-gradient(circle, rgba(255, 180, 84, 0.8) 1px, transparent 2px);
+    background-size: 83px 97px, 127px 113px, 151px 139px;
+    background-position: 10px 20px, 40px 60px, 70px 15px;
+    opacity: 0.45;
+    animation: brainParticles 12s linear infinite;
+}
+
+.brain-background::after {
+    opacity: 0.2;
+    transform: scale(1.3);
+    animation-duration: 18s;
+    animation-direction: reverse;
+}
+
+@keyframes brainParticles {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-45px);
+    }
+}
+/* 第四幕：大脑环绕轨道 */
+
+.brain-orbit {
+    position: absolute;
+    left: 50%;
+    top: 245px;
+    border: 1px solid rgba(180, 160, 255, 0.65);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.orbit-one {
+    width: 155px;
+    height: 155px;
+    transform: rotate(-25deg);
+    border-color: rgba(255, 180, 84, 0.7);
+    animation: orbitRotate 8s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+.orbit-two {
+    width: 185px;
+    height: 125px;
+    transform: rotate(35deg);
+    animation: orbitRotateReverse 12s linear infinite;
+}
+
+@keyframes orbitRotate {
+    from {
+        transform: rotate(-25deg);
+    }
+    to {
+        transform: rotate(335deg);
+    }
+}
+
+@keyframes orbitRotateReverse {
+    from {
+        transform: rotate(35deg);
+    }
+    to {
+        transform: rotate(-325deg);
+    }
+}
